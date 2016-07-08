@@ -1,12 +1,10 @@
 package tiimiss.globalgps.ba.tiimiss.Activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 
 import tiimiss.globalgps.ba.tiimiss.R;
@@ -22,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //getActionBar().setDisplayShowTitleEnabled(false);
         setContentView(R.layout.activity_main);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         etEmailAddress = (EditText)findViewById(R.id.input_email_address);
         etPassword = (EditText)findViewById(R.id.input_password);
         //btnLogin = (Button)findViewById(R.id.btnLogin);

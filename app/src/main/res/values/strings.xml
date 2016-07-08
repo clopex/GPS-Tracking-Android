@@ -6,4 +6,5 @@
     <string name="password_hint">Password</string>
     <string name="tasks_type">Tasks</string>
     <string name="map_type">Map</string>
+    <string name="action_logout">Logout</string>
 </resources>
