@@ -2,10 +2,10 @@ package tiimiss.globalgps.ba.tiimiss.Activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,11 +15,15 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import tiimiss.globalgps.ba.tiimiss.Fragments.TaskDetailFragment;
 import tiimiss.globalgps.ba.tiimiss.Fragments.TaskMapFragment;
 import tiimiss.globalgps.ba.tiimiss.R;
+import tiimiss.globalgps.ba.tiimiss.Utillities.GlobalVariables;
 
 public class DashboardActivity extends AppCompatActivity {
 
     AHBottomNavigation mBottomNavigation;
+    String mLongitudeStartLocation, mLatitudeStartLocation,mLongitudeEndLocation, mLatitudeEndLocation, mTaskName;
     FragmentManager fragmentManager = getSupportFragmentManager();
+    //final GlobalVariables globalVariables = (GlobalVariables)getApplicationContext();
+    //Bundle bundle;
 
     TaskDetailFragment taskDetailFragment = TaskDetailFragment.newInstance();
     TaskMapFragment taskMapFragment = TaskMapFragment.newInstance();
@@ -30,10 +34,22 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         mBottomNavigation = (AHBottomNavigation)findViewById(R.id.bottom_navigation);
 
+        loadDataFromTasks();
         if (savedInstanceState == null){
             loadContent(0);
         }
         setupBottomBavigation();
+
+        //Toast.makeText(this, mTaskName +":"+mLatitudeStartLocation+";"+mLongitudeStartLocation +" i "+mLatitudeEndLocation+":"+mLongitudeEndLocation, Toast.LENGTH_LONG).show();
+    }
+
+    private void loadDataFromTasks() {
+        Bundle bundle = getIntent().getExtras();
+        mTaskName = bundle.getString("taskName");
+        mLatitudeStartLocation = bundle.getString("fromLat");
+        mLongitudeStartLocation = bundle.getString("fromLng");
+        mLatitudeEndLocation = bundle.getString("toLat");
+        mLongitudeEndLocation = bundle.getString("toLng");
 
     }
 
@@ -93,13 +109,14 @@ public class DashboardActivity extends AppCompatActivity {
         mBottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
 
 
+
         // Set listener
         mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
                 if ( wasSelected == false ){
                     loadContent(position);
-                    return false;
+                    return true;
                 }
                 return true;
             }
@@ -107,18 +124,40 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void loadContent(int id) {
-
+        Bundle bundle = new Bundle();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        storeGlobalVariables();
 
         switch (id){
             case 0:
+
+                /*bundle.putString("TaskName", mTaskName);
+                bundle.putString("LatStartLocation",mLatitudeStartLocation);
+                bundle.putString("LongStartLocation",mLongitudeStartLocation);
+                bundle.putString("LatEndLocation",mLatitudeEndLocation);
+                bundle.putString("LongEndLocation",mLongitudeEndLocation);
+                taskDetailFragment.setArguments(bundle);*/
+                //Toast.makeText(this, "Prvi tab", Toast.LENGTH_SHORT).show();
                 fragmentTransaction.replace(R.id.main_container, taskDetailFragment);
                 break;
             case 1:
-                //mapFragment.setArguments(bundle);
+                /*bundle.putString("LatStartLocation",mLatitudeStartLocation);
+                bundle.putString("LongStartLocation",mLongitudeStartLocation);
+                bundle.putString("LatEndLocation",mLatitudeEndLocation);
+                bundle.putString("LongEndLocation",mLongitudeEndLocation);
+                taskMapFragment.setArguments(bundle);*/
+                //Toast.makeText(this, "Drugi tab", Toast.LENGTH_SHORT).show();
                 fragmentTransaction.replace(R.id.main_container, taskMapFragment);
                 break;
         }
         fragmentTransaction.commit();
+    }
+
+    private void storeGlobalVariables() {
+        ((GlobalVariables) this.getApplication()).setTaskName(mTaskName);
+        ((GlobalVariables) this.getApplication()).setLatitudeStartLocation(mLatitudeStartLocation);
+        ((GlobalVariables) this.getApplication()).setLongitudeStartLocation(mLongitudeStartLocation);
+        ((GlobalVariables) this.getApplication()).setLatitudeEndLocation(mLatitudeEndLocation);
+        ((GlobalVariables) this.getApplication()).setLongitudeEndLocation(mLongitudeEndLocation);
     }
 }

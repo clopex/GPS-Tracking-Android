@@ -7,27 +7,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
 import tiimiss.globalgps.ba.tiimiss.Activity.DashboardActivity;
-import tiimiss.globalgps.ba.tiimiss.Fragments.TaskDetailFragment;
 import tiimiss.globalgps.ba.tiimiss.Holders.TasksReclyerHolder;
 import tiimiss.globalgps.ba.tiimiss.Listeners.TasksItemClickListener;
 import tiimiss.globalgps.ba.tiimiss.R;
-import tiimiss.globalgps.ba.tiimiss.Utillities.ItemTasks;
+import tiimiss.globalgps.ba.tiimiss.Utillities.TaskItems;
 
 /**
  * Created by adismulabdic on 7/3/16.
  */
 public class TasksAdapter extends RecyclerView.Adapter<TasksReclyerHolder> {
 
-    private List<ItemTasks> itemsList;
+    private List<TaskItems> itemsList;
     private Context context;
-    String fromLatitude, fromLongitude, toLatitude, toLongituted, taskDescription;
+    String fromLatitude, fromLongitude, toLatitude, toLongituted;
 
-    public TasksAdapter(Context context, List<ItemTasks> itemsList) {
+    public TasksAdapter(Context context, List<TaskItems> itemsList) {
         this.itemsList = itemsList;
         this.context = context;
     }
@@ -44,11 +42,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksReclyerHolder> {
     public void onBindViewHolder(TasksReclyerHolder holder, int position) {
 
         holder.taskName.setText("Task Name: "+itemsList.get(position).getTaskName());
-        fromLatitude = itemsList.get(position).getDestFromLat();
-        fromLongitude = itemsList.get(position).getDestFromLng();
-        toLatitude = itemsList.get(position).getDestToLat();
-        toLongituted = itemsList.get(position).getDestToLng();
-        taskDescription = itemsList.get(position).getTaskdesc();
+        fromLatitude = itemsList.get(position).getLatitudeStartLocation();
+        fromLongitude = itemsList.get(position).getLongitudeStartLocation();
+        toLatitude = itemsList.get(position).getLatitudeEndLocation();
+        toLongituted = itemsList.get(position).getLongitudeEndLocation();
 
         holder.setClickListener(new TasksItemClickListener() {
             @Override
@@ -56,11 +53,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksReclyerHolder> {
                 Intent intent = new Intent(context, DashboardActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("taskName", itemsList.get(position).getTaskName());
-                bundle.putString("descTask", itemsList.get(position).getTaskdesc());
-                bundle.putString("fromLat", itemsList.get(position).getDestFromLat());
-                bundle.putString("fromLng", itemsList.get(position).getDestFromLng());
-                bundle.putString("toLat", itemsList.get(position).getDestToLat());
-                bundle.putString("toLng", itemsList.get(position).getDestToLng());
+                bundle.putString("fromLat", itemsList.get(position).getLatitudeStartLocation());
+                bundle.putString("fromLng", itemsList.get(position).getLongitudeStartLocation());
+                bundle.putString("toLat", itemsList.get(position).getLatitudeEndLocation());
+                bundle.putString("toLng", itemsList.get(position).getLongitudeEndLocation());
+                //Log.i("TEST:", itemsList.get(position).getTaskName());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

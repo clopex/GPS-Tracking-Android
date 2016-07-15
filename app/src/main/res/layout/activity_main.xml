@@ -52,12 +52,12 @@
                 <EditText
 
                     android:layout_marginTop="16dp"
-                    android:id="@+id/input_email_address"
+                    android:id="@+id/input_username"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/email_hint"
-                    android:inputType="textEmailAddress"
-                    android:text="Demo" />
+                    android:hint="@string/username_hint"
+                    android:inputType="text"
+                    android:text="user1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -72,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_hint"
-                    android:text="demo"
+                    android:text="test1234"
                     android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>

@@ -2,9 +2,11 @@
     <string name="app_name">Tiimiss</string>
     <string name="enter_credentials">Please enter your credentials</string>
     <string name="log_in">Log In</string>
-    <string name="email_hint">Email</string>
+    <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="tasks_type">Tasks</string>
     <string name="map_type">Map</string>
     <string name="action_logout">Logout</string>
+    <string name="startLocation">Start Location</string>
+    <string name="endLocation">End Location</string>
 </resources>
