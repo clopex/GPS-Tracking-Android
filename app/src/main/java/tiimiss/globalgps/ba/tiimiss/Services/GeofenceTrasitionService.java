@@ -19,6 +19,7 @@ import com.google.android.gms.location.GeofencingEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import tiimiss.globalgps.ba.tiimiss.Activity.DashboardActivity;
 import tiimiss.globalgps.ba.tiimiss.Fragments.TaskMapFragment;
 import tiimiss.globalgps.ba.tiimiss.R;
 
@@ -85,7 +86,7 @@ public class GeofenceTrasitionService extends IntentService {
         );
 
         TaskStackBuilder  stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(TaskMapFragment.class);
+        stackBuilder.addParentStack(DashboardActivity.class);
         stackBuilder.addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         /*TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

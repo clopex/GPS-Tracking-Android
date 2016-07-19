@@ -26,6 +26,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBiu2J_gZSYMLg1faAezxE8f9MDHkWp-BU"/>
 
+
         <activity android:name=".Activity.DashboardActivity" />
         <activity android:name=".Activity.Tasks"></activity>
         <service
