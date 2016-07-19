@@ -291,7 +291,6 @@ public class TaskMapFragment extends Fragment implements OnMapReadyCallback, Dir
         Log.d(TAG, "addGeofence");
 
         if (checkPermission())
-            mGoogleApiClient.connect();
             LocationServices.GeofencingApi.addGeofences(
                     mGoogleApiClient,
                     request,
