@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import tiimiss.globalgps.ba.tiimiss.R;
 import tiimiss.globalgps.ba.tiimiss.Utillities.BaseUtillity;
+import tiimiss.globalgps.ba.tiimiss.Utillities.NetworkCheck;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,8 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginClicked(View v) {
         setupKeyborad();
+        NetworkCheck networkCheck = new NetworkCheck();
 
-        getUserID();
+        if (networkCheck.isAvailable(this)){
+            getUserID();
+        } else {
+            Toast toast = Toast.makeText(this, "Internet not available", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
         Log.i("ID", userID);
 
     }
