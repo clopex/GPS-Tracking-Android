@@ -1,5 +1,6 @@
 package tiimiss.globalgps.ba.tiimiss.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -89,34 +90,15 @@ public class Tasks extends AppCompatActivity {
     }
 
    public class getJson extends AsyncTask<String, String, String>{
+       private ProgressDialog progressDialog;
        @Override
-       protected void onPostExecute(String s) {
-           List<TaskItems> data = new ArrayList<>();
-
-           try {
-               JSONArray jsonArray = new JSONArray(s);
-
-               /*JSONObject jsonObject = jsonArray.getJSONObject(0);
-               String name = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getString("name");
-               String longitude = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("startLocation").getJSONArray("coordinates").getString(0);
-               Log.i("PROBA", name + ":"+longitude);*/
-               for (int i=0; i<jsonArray.length(); i++){
-                   JSONObject jsonObject = jsonArray.getJSONObject(i);
-                   TaskItems taskItems = new TaskItems();
-                   taskItems.taskName = jsonObject.getString("name");
-                   taskItems.latitudeStartLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("startLocation").getJSONArray("coordinates").getString(0);
-                   taskItems.longitudeStartLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("startLocation").getJSONArray("coordinates").getString(1);
-                   taskItems.latitudeEndLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("endlocation").getJSONArray("coordinates").getString(0);
-                   taskItems.longitudeEndLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("endlocation").getJSONArray("coordinates").getString(1);
-                   data.add(taskItems);
-               }
-
-
-               mAdapter = new TasksAdapter(Tasks.this, data);
-               mRecyclerView.setAdapter(mAdapter);
-           } catch (JSONException e) {
-               e.printStackTrace();
-           }
+       protected void onPreExecute() {
+           super.onPreExecute();
+           progressDialog = new ProgressDialog(Tasks.this);
+           progressDialog.setMessage("Please wait...");
+           progressDialog.setIndeterminate(false);
+           progressDialog.setCancelable(true);
+           progressDialog.show();
        }
 
        @Override
@@ -154,6 +136,38 @@ public class Tasks extends AppCompatActivity {
            }
            //return null;
        }
+
+       @Override
+       protected void onPostExecute(String s) {
+           progressDialog.dismiss();
+           List<TaskItems> data = new ArrayList<>();
+
+           try {
+               JSONArray jsonArray = new JSONArray(s);
+
+               /*JSONObject jsonObject = jsonArray.getJSONObject(0);
+               String name = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getString("name");
+               String longitude = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("startLocation").getJSONArray("coordinates").getString(0);
+               Log.i("PROBA", name + ":"+longitude);*/
+               for (int i=0; i<jsonArray.length(); i++){
+                   JSONObject jsonObject = jsonArray.getJSONObject(i);
+                   TaskItems taskItems = new TaskItems();
+                   taskItems.taskName = jsonObject.getString("name");
+                   taskItems.latitudeStartLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("startLocation").getJSONArray("coordinates").getString(0);
+                   taskItems.longitudeStartLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("startLocation").getJSONArray("coordinates").getString(1);
+                   taskItems.latitudeEndLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("endlocation").getJSONArray("coordinates").getString(0);
+                   taskItems.longitudeEndLocation = jsonObject.getJSONObject("body").getJSONObject("tms").getJSONObject("route").getJSONObject("endlocation").getJSONArray("coordinates").getString(1);
+                   data.add(taskItems);
+               }
+
+
+               mAdapter = new TasksAdapter(Tasks.this, data);
+               mRecyclerView.setAdapter(mAdapter);
+           } catch (JSONException e) {
+               e.printStackTrace();
+           }
+       }
+
    }
 
     private void getTasks() {
